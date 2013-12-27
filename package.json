@@ -1,0 +1,14 @@
+{
+    "name": "application-name",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node app.js"
+    },
+    "dependencies": {
+        "connect": "*",
+        "socket.io": "0.9.16",
+        "aws-sdk": "2.0.0-rc4"
+    },
+    "engine": "node = 0.10.22"
+}
