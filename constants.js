@@ -11,6 +11,8 @@ exports.DYN_GET_USER_MEDIA = 'dynamo_get_user_media';
 exports.DYN_GET_PRIVATE = 'dynamo_get_private';
 exports.DYN_UPDATE_USER = 'dynamo_update_user';
 exports.DYN_UPDATE_MEDIA = 'dynamo_update_media';
+exports.DYN_DELETE_USER = 'dynamo_delete_user';
+exports.DYN_DELETE_MEDIA = 'dynamo_delete_media';
 // dynamo tables
 exports.DYN_USERS_TABLE = 'aws_node_demo_dynamo_users';
 exports.DYN_MEDIA_TABLE = 'aws_node_demo_dynamo_media';

@@ -9,6 +9,14 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
         self.socketCon.emit(Constants.DYN_GET_USERS);
     };
 
+    this.putUser = function(user){
+        self.socketCon.emit(Constants.DYN_UPDATE_USER, user);
+    };
+
+    this.deleteUser = function(id){
+        self.socketCon.emit(Constants.DYN_DELETE_USER, id);
+    };
+
     // Socket.io disconnect
     this.disconnect = function() {
         self.socketCon.disconnect();
@@ -24,9 +32,16 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
             $rootScope.$broadcast(Constants.CONNECTED);
         });
 
-        // Server initialized data
+        // Server returned data, inform listeners
         self.socketCon.on(Constants.DYN_GET_USERS, function(data) {
             $rootScope.$broadcast(Constants.DYN_GET_USERS, data);
+        });
+        // Server updated data, inform listeners
+        self.socketCon.on(Constants.DYN_UPDATE_USER, function() {
+            $rootScope.$broadcast(Constants.DYN_UPDATE_USER);
+        });
+        self.socketCon.on(Constants.DYN_DELETE_USER, function() {
+            $rootScope.$broadcast(Constants.DYN_DELETE_USER);
         });
 
         // Disconnected

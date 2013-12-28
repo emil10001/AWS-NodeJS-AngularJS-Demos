@@ -40,7 +40,52 @@ ObjectConverter = function (data_in) {
     return data_out;
 };
 
+ConvertFromJson = function (data_in) {
+    var data_out = {};
+
+    Object.keys(data_in).forEach(function (key) {
+        var subObj = {};
+        var val = data_in[key];
+        // if
+        if (!(typeof val === 'undefined' || (!!!val && typeof val !== 'boolean')))
+            subObj = null;
+
+        if (typeof val === 'boolean')
+            subObj = {"B": val.toString()};
+        else if (typeof val === 'string')
+            subObj = {"S": val.toString()};
+        else if (typeof val === 'number')
+            subObj = {"N": val.toString()};
+        else if (typeof val === 'object') {
+            if (Array.isArray(val) && val.length >= 1) {
+                var subObjKey = null;
+                if (typeof val[0] === 'boolean')
+                    subObjKey = "BS";
+                else if (typeof val[0] === 'string')
+                    subObjKey = "SS";
+                else if (typeof val[0] === 'number')
+                    subObjKey = "NS";
+
+                if (!!subObjKey) {
+                    var subObjArr = [];
+                    for (var i = 0; i < val.length; i++) {
+                        subObjArr.push(val.toString());
+                    }
+                    subObj[subObjKey] = subObjArr;
+                }
+            }
+        } else
+            subObj = null;
+
+        if (!!subObj)
+            data_out[key] = subObj;
+    });
+
+    return data_out;
+}
+
 module.exports = {
     ArrayConverter: ArrayConverter,
-    ObjectConverter: ObjectConverter
+    ObjectConverter: ObjectConverter,
+    ConvertFromJson: ConvertFromJson
 }

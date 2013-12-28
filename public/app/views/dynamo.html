@@ -1,0 +1,30 @@
+<div>
+    <h2>DynamoDB Example</h2>
+
+    <h3>Users</h3>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div ng-repeat="user in users">
+                <b>{{ user.id }}</b>: <em>{{ user.name }} - {{ user.email }}</em>
+                <small><a class="btn btn-mini btn-danger" ng-click="deleteUser(user.id)"><i class="icon-remove icon-white"></i></a></small>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <form ng-submit="addUser()">
+                <input type="text" ng-model="newUser.id" size="10" placeholder="id"><br>
+                <input type="text" ng-model="newUser.name" size="30" placeholder="name"><br>
+                <input type="email" ng-model="newUser.email" size="30" placeholder="email">
+                <button class="btn-primary" type="submit"><i class="icon-plus icon-white"></i></button>
+            </form>
+        </div>
+    </div>
+    <small>
+        Author's note: using an integer primary key in dynamo is not wise. DynamoDB requires you to pass in a unique id
+        for each new entry, so if you don't know what's been used already, it might be tough to figure out what this
+        should be. It would be smarter to use a hash value for the primary key instead. I didn't realize that when I set
+        this up, and since it's small, I can deal with it manually.
+    </small>
+
+</div>

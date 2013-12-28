@@ -19,6 +19,8 @@ myUtils.factory('Constants', function () {
     Constants.DYN_GET_PRIVATE = 'dynamo_get_private';
     Constants.DYN_UPDATE_USER = 'dynamo_update_user';
     Constants.DYN_UPDATE_MEDIA = 'dynamo_update_media';
+    Constants.DYN_DELETE_USER = 'dynamo_delete_user';
+    Constants.DYN_DELETE_MEDIA = 'dynamo_delete_media';
 
     // dynamo tables
     Constants.DYN_USERS_TABLE = 'aws_node_demo_dynamo_users';

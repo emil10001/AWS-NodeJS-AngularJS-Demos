@@ -33,6 +33,11 @@ io.sockets.on('connection', function (socket) {
     socket.on(c.DYN_UPDATE_USER, function (user) {
         aws.DyanmoUsers.addUpdateUser(user, socket);
     });
+
+    // delete requests
+    socket.on(c.DYN_DELETE_USER, function (userId) {
+        aws.DyanmoUsers.deleteUser(userId, socket);
+    });
 });
 
 connect()
