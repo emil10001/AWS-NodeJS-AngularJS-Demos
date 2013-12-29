@@ -11,7 +11,6 @@ var AWS = require('aws-sdk');
  * export AWS_ACCESS_KEY_ID='AKID'
  * export AWS_SECRET_ACCESS_KEY='SECRET'
  * export AWS_RDS_HOST='hostname'
- * export AWS_RDS_DB='db'
  * export AWS_RDS_MYSQL_USERNAME='username'
  * export AWS_RDS_MYSQL_PASSWORD='pass'
  */
@@ -33,16 +32,15 @@ if (process === undefined) {
 }
 
 var mysqlHost = process.env['AWS_RDS_HOST'];
-var mysqlDb = process.env['AWS_RDS_DB'];
 var mysqlUserName = process.env['AWS_RDS_MYSQL_USERNAME'];
 var mysqlPassword = process.env['AWS_RDS_MYSQL_PASSWORD'];
-if (!mysqlPassword || !mysqlUserName) {
+if (!mysqlHost || !mysqlPassword || !mysqlUserName) {
     console.error('no process found');
     return;
 }
 var rds_conf = {
     host: mysqlHost,
-    database: mysqlDb,
+    database: "aws_node_demo",
     user: mysqlUserName,
     password: mysqlPassword
 };
