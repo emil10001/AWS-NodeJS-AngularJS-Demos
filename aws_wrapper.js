@@ -10,6 +10,10 @@ var AWS = require('aws-sdk');
  *
  * export AWS_ACCESS_KEY_ID='AKID'
  * export AWS_SECRET_ACCESS_KEY='SECRET'
+ * export AWS_RDS_HOST='hostname'
+ * export AWS_RDS_DB='db'
+ * export AWS_RDS_MYSQL_USERNAME='username'
+ * export AWS_RDS_MYSQL_PASSWORD='pass'
  */
 AWS.config.region = "us-east-1";
 AWS.config.apiVersions = {
@@ -19,24 +23,42 @@ AWS.config.apiVersions = {
 
 var dynamoUsers = require('./dynamo-demo/users.js')
     , dynamoMedia = require('./dynamo-demo/media.js')
-    , rdsUsers = require('./rds-demo/media.js')
+    , rdsUsers = require('./rds-demo/users.js')
     , rdsMedia = require('./rds-demo/media.js')
     ;
 
+if (process === undefined) {
+    console.error('no process found');
+    return;
+}
 
+var mysqlHost = process.env['AWS_RDS_HOST'];
+var mysqlDb = process.env['AWS_RDS_DB'];
+var mysqlUserName = process.env['AWS_RDS_MYSQL_USERNAME'];
+var mysqlPassword = process.env['AWS_RDS_MYSQL_PASSWORD'];
+if (!mysqlPassword || !mysqlUserName) {
+    console.error('no process found');
+    return;
+}
+var rds_conf = {
+    host: mysqlHost,
+    database: mysqlDb,
+    user: mysqlUserName,
+    password: mysqlPassword
+};
 
 AwsWrapper = function () {
     // Dynamo
     this.dynamodb = new AWS.DynamoDB();
     this.DyanmoUsers = new dynamoUsers(this.dynamodb);
     this.DyanmoMedia = new dynamoMedia(this.dynamodb);
-    console.log('init dynamo wrappers', this.dynamodb, this.DyanmoUsers, this.DyanmoMedia);
+    console.log('init dynamo wrappers');
 
     // RDS
     this.rds = new AWS.RDS();
-    this.RdsUsers = new rdsUsers(this.rds);
-    this.RdsMedia = new rdsMedia(this.rds);
-    console.log('init rds wrappers', this.rds, this.RdsUsers, this.RdsMedia);
+    this.RdsUsers = new rdsUsers(this.rds, rds_conf);
+    this.RdsMedia = new rdsMedia(this.rds, rds_conf);
+    console.log('init rds wrappers');
 };
 
 module.exports = AwsWrapper;
