@@ -41,7 +41,7 @@ Users = function (dynamodb) {
         });
     };
 
-    this.deleteUser = function (userId, socket) {
+    this.deleteDynUser = function (userId, socket) {
         console.log("dyn.users.addUpdateUser");
         console.log(c.DYN_DELETE_USER);
         var userObj = converter.ConvertFromJson({id:userId});

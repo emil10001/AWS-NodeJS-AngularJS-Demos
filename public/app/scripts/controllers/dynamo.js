@@ -3,6 +3,7 @@
 myApp.controller('DynamoCtrl', function ($scope, SocketService, Constants) {
     $scope.users = [];
     $scope.newUser = {};
+    $scope.requireId = true;
 
     $scope.$on(Constants.DYN_GET_USERS, function (event, data) {
         $scope.$apply(function () {
@@ -12,20 +13,20 @@ myApp.controller('DynamoCtrl', function ($scope, SocketService, Constants) {
     });
 
     $scope.$on(Constants.DYN_UPDATE_USER, function (event, data) {
-        SocketService.getUsers();
+        SocketService.getDynUsers();
     });
     $scope.$on(Constants.DYN_DELETE_USER, function (event, data) {
-        SocketService.getUsers();
+        SocketService.getDynUsers();
     });
 
     $scope.addUser = function () {
-        SocketService.putUser({id: parseInt($scope.newUser.id), name: $scope.newUser.name, email: $scope.newUser.email});
+        SocketService.putDynUser({name: $scope.newUser.name, email: $scope.newUser.email});
         $scope.newUser = {};
     };
 
     $scope.deleteUser = function(id){
-        SocketService.deleteUser(id);
+        SocketService.deleteDynUser(id);
     };
 
-    SocketService.getUsers();
+    SocketService.getDynUsers();
 });

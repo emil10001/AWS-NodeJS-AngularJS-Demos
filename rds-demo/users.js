@@ -9,34 +9,50 @@ var c = require('../constants')
 Users = function (rds, conf) {
     this.rds = rds;
     this.connection = mysql.createConnection(conf);
-    var self = this;
     this.connection.connect(function(err){
         if (err)
             console.error("couldn't connect",err);
         else
             console.log("mysql connected");
-        self.testGet();
     });
 
-    this.testGet = function(){
+    this.getAll = function(socket){
         var query = this.connection.query('select * from users;', function(err,result){
-            if (err)
+            if (err){
                 console.error("failed to get",err);
-            else
+                socket.emit(c.RDS_GET_USERS, c.ERROR);
+            } else {
                 console.log("got",result);
+                socket.emit(c.RDS_GET_USERS, result);
+            }
         });
         console.log(query.sql);
     };
 
-    this.testInsert = function(){
-        var user  = {id: 0, name: 'Jimmy', email: 'jimmy@example.com'};
+    this.addUpdateUser = function(user, socket){
         var query = this.connection.query('INSERT INTO users SET ?', user, function(err, result) {
-            if (err)
+            if (err) {
                 console.error("failed to insert",err);
-            else
+                socket.emit(c.RDS_UPDATE_USER, c.ERROR);
+            } else {
                 console.log("inserted",result);
+                socket.emit(c.RDS_UPDATE_USER, result);
+            }
         });
-        console.log(query.sql); // INSERT INTO posts SET `id` = 1, `title` = 'Hello MySQL'
+        console.log(query.sql);
+    };
+
+    this.deleteDynUser = function(userId, socket){
+        var query = this.connection.query('DELETE FROM users WHERE id = ?', userId, function(err, result) {
+            if (err) {
+                console.error("failed to insert",err);
+                socket.emit(c.RDS_DELETE_USER, c.ERROR);
+            } else {
+                console.log("inserted",result);
+                socket.emit(c.RDS_DELETE_USER, result);
+            }
+        });
+        console.log(query.sql);
     };
 };
 
