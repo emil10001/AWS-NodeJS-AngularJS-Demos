@@ -32,6 +32,11 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
         self.socketCon.emit(Constants.RDS_DELETE_USER, id);
     };
 
+    /**** S3 *****/
+    this.getUrlPair = function(){
+        self.socketCon.emit(Constants.S3_GET_URLPAIR);
+    };
+
 
     // Socket.io disconnect
     this.disconnect = function() {
@@ -69,6 +74,11 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
             $rootScope.$broadcast(Constants.RDS_DELETE_USER);
         });
 
+        /**** S3 *****/
+        // Server returned data, inform listeners
+        self.socketCon.on(Constants.S3_GET_URLPAIR, function(data) {
+            $rootScope.$broadcast(Constants.S3_GET_URLPAIR, data);
+        });
 
         /**** Housekeeping *****/
         // Connection to Server made

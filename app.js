@@ -65,6 +65,12 @@ io.sockets.on('connection', function (socket) {
         aws.RdsUsers.deleteDynUser(userId, socket);
     });
 
+    /**** S3 *****/
+    // S3 generate URL pair
+    socket.on(c.S3_GET_URLPAIR, function () {
+        aws.S3Utils.generateUrlPair(socket);
+    });
+
 });
 
 connect()

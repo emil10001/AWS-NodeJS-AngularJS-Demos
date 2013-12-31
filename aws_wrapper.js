@@ -16,6 +16,7 @@ var AWS = require('aws-sdk');
  */
 AWS.config.region = "us-east-1";
 AWS.config.apiVersions = {
+    s3: '2006-03-01',
     rds: '2013-09-09',
     dynamodb: '2012-08-10'
 };
@@ -24,6 +25,7 @@ var dynamoUsers = require('./dynamo-demo/users.js')
     , dynamoMedia = require('./dynamo-demo/media.js')
     , rdsUsers = require('./rds-demo/users.js')
     , rdsMedia = require('./rds-demo/media.js')
+    , S3Utils = require('./s3-demo/s3_utils.js')
     ;
 
 if (process === undefined) {
@@ -57,6 +59,11 @@ AwsWrapper = function () {
     this.RdsUsers = new rdsUsers(this.rds, rds_conf);
     this.RdsMedia = new rdsMedia(this.rds, rds_conf);
     console.log('init rds wrappers');
+
+    // S3
+    this.s3 = new AWS.S3();
+    this.S3Utils = new S3Utils(this.s3);
+    console.log('init s3 wrapper');
 };
 
 module.exports = AwsWrapper;

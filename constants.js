@@ -29,6 +29,12 @@ module.exports = {
     RDS_UPDATE_USER: 'rds_update_user',
     RDS_UPDATE_MEDIA: 'rds_update_media',
     RDS_DELETE_USER: 'rds_delete_user',
-    RDS_DELETE_MEDIA: 'rds_delete_media'
+    RDS_DELETE_MEDIA: 'rds_delete_media',
 
+    // s3
+    S3_BUCKET: 'aws-node-demos',
+    S3_GET_URLPAIR: 's3_get_urlpair',
+    S3_GET_URL: 's3_get_url',
+    S3_PUT_URL: 's3_put_url',
+    S3_KEY: 's3_key'
 };
