@@ -57,12 +57,8 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
             console.log("read file", progress);
             var rawData = progress.target.result;
 
-            var blob = new Blob([ rawData ]);
-            $http.put(data[Constants.S3_PUT_URL], blob).error(function () {
-                console.log("failed to upload for", data[Constants.S3_KEY]);
-            }).success(function () {
-                    console.log("upload succeeded for", data[Constants.S3_KEY]);
-                });
+            var blob = new Blob([ rawData ], {type: 'application/octet-stream'});
+            uploadFile(data[Constants.S3_PUT_URL]);
         }
 
         readerBuf.readAsBinaryString(fileInput.files[0]);
@@ -70,4 +66,32 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
 
 
     });
+
+    var uploadFile = function(url){
+        var file = fileInput.files[0];
+        var xhr = new XMLHttpRequest();
+        xhr.file = file; // not necessary if you create scopes like this
+        xhr.addEventListener('progress', function(e) {
+            var done = e.position || e.loaded, total = e.totalSize || e.total;
+            var prcnt = Math.floor(done/total*1000)/10;
+            if (prcnt % 5 === 0)
+                console.log('xhr progress: ' + (Math.floor(done/total*1000)/10) + '%');
+        }, false);
+        if ( xhr.upload ) {
+            xhr.upload.onprogress = function(e) {
+                var done = e.position || e.loaded, total = e.totalSize || e.total;
+                var prcnt = Math.floor(done/total*1000)/10;
+                if (prcnt % 5 === 0)
+                    console.log('xhr.upload progress: ' + done + ' / ' + total + ' = ' + (Math.floor(done/total*1000)/10) + '%');
+            };
+        }
+        xhr.onreadystatechange = function(e) {
+            if ( 4 == this.readyState ) {
+                console.log(['xhr upload complete', e]);
+            }
+        };
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader("Content-Type","application/octet-stream");
+        xhr.send(file);
+    }
 });
