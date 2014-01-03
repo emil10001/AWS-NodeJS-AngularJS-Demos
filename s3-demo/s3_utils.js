@@ -3,7 +3,8 @@
  * Some examples taken from: http://docs.aws.amazon.com/AWSJavaScriptSDK/guide/node-examples.html#Amazon_Simple_Storage_Service__Amazon_S3_
  */
 var c = require('../constants')
-    , crypto = require('crypto');
+    , crypto = require('crypto')
+    , qs = require('querystring');
 
 S3Utils = function (s3) {
     this.listBuckets = function () {
@@ -18,29 +19,18 @@ S3Utils = function (s3) {
     this.generateUrlPair = function (socket) {
         var urlPair = {};
         var key = crypto.createHash('sha1').update(new Date().getTime().toString()).digest('base64');
-        console.log('requesting url pair for',key);
+        console.log('requesting url pair for', key);
         urlPair[c.S3_KEY] = key;
-        var getParams = {Bucket: c.S3_BUCKET, Key: key};
-        var putParams = {Bucket: c.S3_BUCKET, Key: key, ACL: "public-read-write", ContentType: "application/octet-stream" };
-        s3.getSignedUrl('getObject', getParams, function (err, url) {
+        var putParams = {Bucket: c.S3_BUCKET, Key: key, ACL: "public-read", ContentType: "application/octet-stream" };
+        s3.getSignedUrl('putObject', putParams, function (err, url) {
             if (!!err) {
                 console.error(c.S3_GET_URLPAIR, err);
                 socket.emit(c.S3_GET_URLPAIR, c.ERROR);
                 return;
             }
-            console.log('The get URL is', url);
-            urlPair[c.S3_GET_URL] = url;
-
-            s3.getSignedUrl('putObject', putParams, function (err, url) {
-                if (!!err) {
-                    console.error(c.S3_GET_URLPAIR, err);
-                    socket.emit(c.S3_GET_URLPAIR, c.ERROR);
-                    return;
-                }
-                console.log('The put URL is', url);
-                urlPair[c.S3_PUT_URL] = url;
-                socket.emit(c.S3_GET_URLPAIR, urlPair);
-            });
+            urlPair[c.S3_PUT_URL] = url;
+            urlPair[c.S3_GET_URL] = "https://s3.amazonaws.com/aws-node-demos/" + qs.escape(key);
+            socket.emit(c.S3_GET_URLPAIR, urlPair);
         });
     };
 
