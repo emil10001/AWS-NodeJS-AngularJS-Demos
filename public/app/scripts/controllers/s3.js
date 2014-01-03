@@ -28,46 +28,9 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
         var fileInput = document.getElementById('fileInput');
         var fileInputArea = document.getElementById('fileInputArea');
 
-        var readerImg = new FileReader();
-        var readerBuf = new FileReader();
+        var url = data[Constants.S3_PUT_URL];
+        var getUrl = data[Constants.S3_GET_URL];
 
-        readerImg.onload = function (progress) {
-            if (!!progress.error) {
-                console.error("failed to read file", progress.error);
-                return;
-            }
-            console.log("read file progress", progress);
-
-            console.log("read file", fileInput.files[0]);
-            fileDisplayArea.innerHTML = "";
-
-            // Create a new image.
-            var img = new Image();
-            // Set the img src property using the data URL.
-            img.src = progress.target.result;
-
-            // Add the image to the page.
-            fileDisplayArea.appendChild(img);
-        }
-        readerBuf.onload = function (progress) {
-            if (!!progress.error) {
-                console.error("failed to read file", progress.error);
-                return;
-            }
-            console.log("read file", progress);
-            var rawData = progress.target.result;
-
-            var blob = new Blob([ rawData ], {type: 'application/octet-stream'});
-            uploadFile(data[Constants.S3_PUT_URL]);
-        }
-
-        readerBuf.readAsBinaryString(fileInput.files[0]);
-        readerImg.readAsDataURL(fileInput.files[0]);
-
-
-    });
-
-    var uploadFile = function(url){
         var file = fileInput.files[0];
         var xhr = new XMLHttpRequest();
         xhr.file = file; // not necessary if you create scopes like this
@@ -88,10 +51,13 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
         xhr.onreadystatechange = function(e) {
             if ( 4 == this.readyState ) {
                 console.log(['xhr upload complete', e]);
+                $scope.$apply(function(){
+                    $scope.fileImgUrl = getUrl;
+                });
             }
         };
         xhr.open('PUT', url, true);
         xhr.setRequestHeader("Content-Type","application/octet-stream");
         xhr.send(file);
-    }
+    });
 });

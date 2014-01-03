@@ -20,6 +20,7 @@ S3Utils = function (s3) {
         var urlPair = {};
         var key = crypto.createHash('sha1').update(new Date().getTime().toString()).digest('base64');
         console.log('requesting url pair for', key);
+        key = qs.escape(key);
         urlPair[c.S3_KEY] = key;
         var putParams = {Bucket: c.S3_BUCKET, Key: key, ACL: "public-read", ContentType: "application/octet-stream" };
         s3.getSignedUrl('putObject', putParams, function (err, url) {
@@ -29,7 +30,7 @@ S3Utils = function (s3) {
                 return;
             }
             urlPair[c.S3_PUT_URL] = url;
-            urlPair[c.S3_GET_URL] = "https://s3.amazonaws.com/aws-node-demos/" + qs.escape(key);
+            urlPair[c.S3_GET_URL] = "https://aws-node-demos.s3.amazonaws.com/" + qs.escape(key);
             socket.emit(c.S3_GET_URLPAIR, urlPair);
         });
     };
