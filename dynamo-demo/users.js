@@ -6,8 +6,9 @@ var c = require('../constants')
 
 Users = function (dynamodb) {
     this.dynamodb = dynamodb;
+
     this.getAll = function (socket) {
-        console.log("dyn.users.getAll", c.DYN_USERS_TABLE);
+        console.log(c.DYN_GET_USERS, c.DYN_USERS_TABLE);
         this.dynamodb.scan({
             "TableName": c.DYN_USERS_TABLE,
             "Limit": 100
@@ -24,7 +25,6 @@ Users = function (dynamodb) {
     };
 
     this.addUpdateUser = function (user, socket) {
-        console.log("dyn.users.addUpdateUser");
         console.log(c.DYN_UPDATE_USER);
         var userObj = converter.ConvertFromJson(user);
         this.dynamodb.putItem({
@@ -41,10 +41,9 @@ Users = function (dynamodb) {
         });
     };
 
-    this.deleteDynUser = function (userId, socket) {
-        console.log("dyn.users.addUpdateUser");
+    this.deleteUser = function (userId, socket) {
         console.log(c.DYN_DELETE_USER);
-        var userObj = converter.ConvertFromJson({id:userId});
+        var userObj = converter.ConvertFromJson({id: userId});
         this.dynamodb.deleteItem({
             "TableName": c.DYN_USERS_TABLE,
             "Key": userObj

@@ -31,7 +31,7 @@ Media = function (dynamodb) {
             "TableName": c.DYN_MEDIA_TABLE,
             "Limit": 100,
             "ScanFilter": {
-                "IndexName": {
+                "uid": {
                     "AttributeValueList": [
                         {
                             "N": user.id
@@ -65,7 +65,26 @@ Media = function (dynamodb) {
                 socket.emit(c.DYN_UPDATE_MEDIA, data);
             }
         });
-    };};
+    };
+
+    this.deleteMedia = function (mid, socket) {
+        console.log(c.DYN_DELETE_MEDIA);
+        var mediaObj = converter.ConvertFromJson({id: mid});
+        this.dynamodb.deleteItem({
+            "TableName": c.DYN_MEDIA_TABLE,
+            "Key": mediaObj
+        }, function (err, data) {
+            if (err) {
+                console.log(c.DYN_DELETE_MEDIA, err);
+                socket.emit(c.DYN_DELETE_MEDIA, "error");
+            } else {
+                console.log(c.DYN_DELETE_MEDIA, data);
+                socket.emit(c.DYN_DELETE_MEDIA, data);
+            }
+        });
+    };
+
+};
 
 
 module.exports = Media;

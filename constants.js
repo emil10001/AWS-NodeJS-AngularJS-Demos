@@ -36,5 +36,6 @@ module.exports = {
     S3_GET_URLPAIR: 's3_get_urlpair',
     S3_GET_URL: 's3_get_url',
     S3_PUT_URL: 's3_put_url',
-    S3_KEY: 's3_key'
+    S3_KEY: 's3_key',
+    S3_DELETE: 's3_delete'
 };

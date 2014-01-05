@@ -37,7 +37,10 @@ io.sockets.on('connection', function (socket) {
 
     // delete requests
     socket.on(c.DYN_DELETE_USER, function (userId) {
-        aws.DyanmoUsers.deleteDynUser(userId, socket);
+        aws.DyanmoUsers.deleteUser(userId, socket);
+    });
+    socket.on(c.DYN_DELETE_MEDIA, function (mId) {
+        aws.DyanmoMedia.deleteMedia(mId, socket);
     });
 
     /**** RDS *****/
@@ -62,7 +65,10 @@ io.sockets.on('connection', function (socket) {
 
     // RDS delete requests
     socket.on(c.RDS_DELETE_USER, function (userId) {
-        aws.RdsUsers.deleteDynUser(userId, socket);
+        aws.RdsUsers.deleteUser(userId, socket);
+    });
+    socket.on(c.RDS_DELETE_MEDIA, function (mId) {
+        aws.RdsMedia.deleteMedia(mId, socket);
     });
 
     /**** S3 *****/
@@ -70,7 +76,10 @@ io.sockets.on('connection', function (socket) {
     socket.on(c.S3_GET_URLPAIR, function () {
         aws.S3Utils.generateUrlPair(socket);
     });
-
+    // delete a media using key from the default S3 bucket
+    socket.on(c.S3_DELETE, function (key) {
+        aws.S3Utils.deleteMedia(key, socket);
+    });
 });
 
 connect()

@@ -42,13 +42,13 @@ Users = function (rds, conf) {
         console.log(query.sql);
     };
 
-    this.deleteDynUser = function(userId, socket){
+    this.deleteUser = function(userId, socket){
         var query = this.connection.query('DELETE FROM users WHERE id = ?', userId, function(err, result) {
             if (err) {
-                console.error("failed to insert",err);
+                console.error("failed to delete",err);
                 socket.emit(c.RDS_DELETE_USER, c.ERROR);
             } else {
-                console.log("inserted",result);
+                console.log("deleted",result);
                 socket.emit(c.RDS_DELETE_USER, result);
             }
         });

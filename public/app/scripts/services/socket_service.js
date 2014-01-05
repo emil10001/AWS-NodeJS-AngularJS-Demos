@@ -14,7 +14,7 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
         self.socketCon.emit(Constants.DYN_UPDATE_USER, user);
     };
 
-    this.deleteDynUser = function(id){
+    this.deleteUser = function(id){
         self.socketCon.emit(Constants.DYN_DELETE_USER, id);
     };
 
