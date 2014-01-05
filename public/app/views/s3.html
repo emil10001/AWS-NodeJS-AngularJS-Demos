@@ -2,6 +2,22 @@
 
 <h2>S3 Example</h2>
 
+<div class="row">
+    Select a user<br>
+    <select ng-model="user" ng-options="c.name for c in users"></select><br>
+</div>
+<div class="well">
+
+    <div class="row">
+        <div class="col-md-5" ng-repeat="media in userMedia">
+            <small><a class="btn btn-xs btn-danger" ng-click="deleteMedia(media)"><i
+                    class="icon-remove icon-white"></i></a></small>
+            <b><a ng-click="selectUserMedia(media)">{{ media.title }}</a></b>
+        </div>
+        <img ng-src=" {{ selectedMedia.url }}" class="col-md-7"/>
+    </div>
+</div>
+
 <div class="well">
 
     <h3>Upload a picture</h3>

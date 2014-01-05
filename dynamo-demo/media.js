@@ -25,7 +25,7 @@ Media = function (dynamodb) {
         });
     };
 
-    this.getUserMedia = function (user, socket) {
+    this.getUserMedia = function (uid, socket) {
         console.log("dyn.media.getUserMedia");
         this.dynamodb.scan({
             "TableName": c.DYN_MEDIA_TABLE,
@@ -34,7 +34,7 @@ Media = function (dynamodb) {
                 "uid": {
                     "AttributeValueList": [
                         {
-                            "N": user.id
+                            "N": uid.toString()
                         }
                     ],
                     "ComparisonOperator": "EQ"
@@ -45,8 +45,9 @@ Media = function (dynamodb) {
                 console.log(c.DYN_GET_USER_MEDIA, err);
                 socket.emit(c.DYN_GET_USER_MEDIA, c.ERROR);
             } else {
-                console.log(c.DYN_GET_USER_MEDIA, data);
-                socket.emit(c.DYN_GET_USER_MEDIA, data);
+                var finalData = converter.ArrayConverter(data.Items);
+                console.log(c.DYN_GET_USER_MEDIA, finalData);
+                socket.emit(c.DYN_GET_USER_MEDIA, finalData);
             }
         });
     };
@@ -59,16 +60,18 @@ Media = function (dynamodb) {
             "Item": mediaObj
         }, function (err, data) {
             if (err) {
+                console.log(c.DYN_UPDATE_MEDIA, err);
                 socket.emit(c.DYN_UPDATE_MEDIA, c.ERROR);
             } else {
-                console.log(c.DYN_UPDATE_MEDIA, data);
-                socket.emit(c.DYN_UPDATE_MEDIA, data);
+                var finalData = converter.ArrayConverter(data.Items);
+                console.log(c.DYN_UPDATE_MEDIA, finalData);
+                socket.emit(c.DYN_UPDATE_MEDIA, finalData);
             }
         });
     };
 
     this.deleteMedia = function (mid, socket) {
-        console.log(c.DYN_DELETE_MEDIA);
+        console.log(c.DYN_DELETE_MEDIA, mid);
         var mediaObj = converter.ConvertFromJson({id: mid});
         this.dynamodb.deleteItem({
             "TableName": c.DYN_MEDIA_TABLE,
@@ -78,8 +81,9 @@ Media = function (dynamodb) {
                 console.log(c.DYN_DELETE_MEDIA, err);
                 socket.emit(c.DYN_DELETE_MEDIA, "error");
             } else {
-                console.log(c.DYN_DELETE_MEDIA, data);
-                socket.emit(c.DYN_DELETE_MEDIA, data);
+                var finalData = converter.ArrayConverter(data.Items);
+                console.log(c.DYN_DELETE_MEDIA, finalData);
+                socket.emit(c.DYN_DELETE_MEDIA, finalData);
             }
         });
     };

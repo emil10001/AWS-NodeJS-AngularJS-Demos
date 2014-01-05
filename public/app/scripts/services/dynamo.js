@@ -33,5 +33,6 @@ myServices.service('DynamoService', function DynamoService($rootScope, Constants
         SocketService.getDynUsers();
     });
 
+
     SocketService.getDynUsers();
 });

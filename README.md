@@ -28,7 +28,10 @@ a very simple set, with two tables that are JOINable. Here's the schema:
         type: "image/jpg"
     }
 
-The same schema will be used for both Dynamo and RDS.
+The same schema will be used for both Dynamo and RDS, almost. RDS uses an
+mkey field in the media table, to keep track of the key. Dynamo uses a string
+id, which should be the key of the media object in S3.
+
 
 DynamoDB
 ---------------------

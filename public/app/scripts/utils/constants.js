@@ -9,6 +9,7 @@ myUtils.factory('Constants', function () {
         // angular specific strings
         RDS_SERVICE_UPDATE: 'rds_service_update',
         DYN_SERVICE_UPDATE: 'dyn_service_update',
+        S3_FILE_DONE: 's3_file_done',
 
         // generic strings
         CONNECTED: 'connected!',
@@ -43,7 +44,8 @@ myUtils.factory('Constants', function () {
         S3_GET_URLPAIR: 's3_get_urlpair',
         S3_GET_URL: 's3_get_url',
         S3_PUT_URL: 's3_put_url',
-        S3_KEY: 's3_key'
+        S3_KEY: 's3_key',
+        S3_DELETE: 's3_delete'
 
     }
 });

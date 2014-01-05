@@ -31,9 +31,13 @@ myApp.config(function ($routeProvider) {
             templateUrl: 'views/dynamo.html',
             controller: 'DynamoCtrl'
         })
-        .when('/s3', {
+        .when('/s3_dynamo', {
             templateUrl: 'views/s3.html',
-            controller: 'S3Ctrl'
+            controller: 'S3DynamoCtrl'
+        })
+        .when('/s3_rds', {
+            templateUrl: 'views/s3.html',
+            controller: 'S3RdsCtrl'
         })
         .otherwise({
             redirectTo: '/'

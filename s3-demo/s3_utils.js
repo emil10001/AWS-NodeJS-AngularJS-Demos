@@ -37,12 +37,14 @@ S3Utils = function (s3) {
 
     this.deleteMedia = function(key, socket) {
         var params = {Bucket: c.S3_BUCKET, Key: key};
+        console.log(c.S3_DELETE, params);
         s3.deleteObject(params, function(err, data){
             if (!!err) {
                 console.error(c.S3_DELETE, err);
                 socket.emit(c.S3_DELETE, c.ERROR);
                 return;
             }
+            console.log(c.S3_DELETE, data);
             socket.emit(c.S3_DELETE, data);
         });
     }

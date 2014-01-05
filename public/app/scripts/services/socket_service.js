@@ -37,8 +37,30 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
         self.socketCon.emit(Constants.S3_GET_URLPAIR);
     };
 
+    /**** Media *****/
+    this.getRdsUserMedia = function(uid){
+        self.socketCon.emit(Constants.RDS_GET_USER_MEDIA, uid);
+    };
+    this.getDynUserMedia = function(uid){
+        self.socketCon.emit(Constants.DYN_GET_USER_MEDIA, uid);
+    };
+    this.putRdsMedia = function(media){
+        self.socketCon.emit(Constants.RDS_UPDATE_MEDIA, media);
+    };
+    this.putDynMedia = function(media){
+        self.socketCon.emit(Constants.DYN_UPDATE_MEDIA, media);
+    };
+    this.deleteRdsMedia = function(mediaId){
+        self.socketCon.emit(Constants.RDS_DELETE_MEDIA, mediaId);
+    };
+    this.deleteDynMedia = function(mediaId){
+        self.socketCon.emit(Constants.DYN_DELETE_MEDIA, mediaId);
+    };
+    this.deleteS3 = function(mediaKey){
+        self.socketCon.emit(Constants.S3_DELETE, mediaKey);
+    };
 
-    // Socket.io disconnect
+        // Socket.io disconnect
     this.disconnect = function() {
         self.socketCon.disconnect();
     };
@@ -78,6 +100,20 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
         // Server returned data, inform listeners
         self.socketCon.on(Constants.S3_GET_URLPAIR, function(data) {
             $rootScope.$broadcast(Constants.S3_GET_URLPAIR, data);
+        });
+
+        /**** Media *****/
+        self.socketCon.on(Constants.RDS_GET_USER_MEDIA, function(data) {
+            $rootScope.$broadcast(Constants.RDS_GET_USER_MEDIA, data);
+        });
+        self.socketCon.on(Constants.DYN_GET_USER_MEDIA, function(data) {
+            $rootScope.$broadcast(Constants.DYN_GET_USER_MEDIA, data);
+        });
+        self.socketCon.on(Constants.RDS_DELETE_MEDIA, function(data) {
+            $rootScope.$broadcast(Constants.RDS_DELETE_MEDIA, data);
+        });
+        self.socketCon.on(Constants.DYN_DELETE_MEDIA, function(data) {
+            $rootScope.$broadcast(Constants.DYN_DELETE_MEDIA, data);
         });
 
         /**** Housekeeping *****/

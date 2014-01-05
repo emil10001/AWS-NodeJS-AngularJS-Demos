@@ -4,6 +4,9 @@
 
 ArrayConverter = function (data_in) {
     var data_out = [];
+    if (!data_in)
+        return data_out;
+
     for (var i = 0; i < data_in.length; i++)
         data_out.push(ObjectConverter(data_in[i]));
     return data_out;
@@ -11,6 +14,8 @@ ArrayConverter = function (data_in) {
 
 ObjectConverter = function (data_in) {
     var data_out = {}
+    if (!data_in)
+        return data_out;
 
     Object.keys(data_in).forEach(function (key) {
         var val = data_in[key];
@@ -42,6 +47,8 @@ ObjectConverter = function (data_in) {
 
 ConvertFromJson = function (data_in) {
     var data_out = {};
+    if (!data_in)
+        return data_out;
 
     Object.keys(data_in).forEach(function (key) {
         var subObj = {};
