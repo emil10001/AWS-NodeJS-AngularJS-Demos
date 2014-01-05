@@ -1,49 +1,10 @@
-<div class="header">
-    <h3 class="text-muted">public</h3>
+<div ng-include src="'views/partial/header.html'"></div>
+
+<div class="well">
+    <ul>
+        <li><a ng-href="#/dynamo">DynamoDB</a> - A simple dataset backed by DynamoDB</li>
+        <li><a ng-href="#/rds">RDS</a> - The same fields as the Dynamo example, but using RDS</li>
+        <li><a ng-href="#/s3">S3</a> - Upload a file to S3, keep track with both Dynamo and RDS</li>
+        <li><a ng-href="#/ses">SES</a> - Email a user!</li>
+    </ul>
 </div>
-
-<h2>DynamoDB Example</h2>
-<div ng-include src="'views/users.html'" ng-controller="DynamoCtrl"></div>
-<small>
-    <b>Note</b>
-    <blockquote>
-        Using an integer primary key in dynamo is not wise. DynamoDB requires you to pass in a unique id
-        for each new entry, so if you don't know what's been used already, it might be tough to figure out what this
-        should be. It would be smarter to use a hash value for the primary key instead. I didn't realize that when I
-        set this up, and since it's small, I can deal with it manually.
-    </blockquote>
-</small>
-
-<h2>RDS Example</h2>
-<div ng-include src="'views/users.html'" ng-controller="RdsCtrl"></div>
-<small>
-    <b>Note</b>
-    <blockquote>
-        Since we're using MySQL, it's easy to set up the database to autoincrement the id of a table. I'm doing that,
-        and hiding the 'id' field using ng-show.
-    </blockquote>
-</small>
-<div ng-include src="'views/s3.html'" ng-controller="S3Ctrl"></div>
-<small>
-    <b>Note</b>
-    <blockquote>
-        You'll need to modify the CORS settings on your S3 bucket for this to work. Try the following configuration:
-        <pre>
-    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
-    &lt;CORSConfiguration xmlns=&quot;http://s3.amazonaws.com/doc/2006-03-01/&quot;&gt;
-        &lt;CORSRule&gt;
-            &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
-            &lt;AllowedOrigin&gt;http://localhost:3000&lt;/AllowedOrigin&gt;
-            &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
-            &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
-            &lt;AllowedMethod&gt;POST&lt;/AllowedMethod&gt;
-            &lt;AllowedMethod&gt;DELETE&lt;/AllowedMethod&gt;
-            &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
-            &lt;AllowedHeader&gt;Content-*&lt;/AllowedHeader&gt;
-            &lt;AllowedHeader&gt;Authorization&lt;/AllowedHeader&gt;
-            &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
-        &lt;/CORSRule&gt;
-    &lt;/CORSConfiguration&gt;
-        </pre>
-    </blockquote>
-</small>

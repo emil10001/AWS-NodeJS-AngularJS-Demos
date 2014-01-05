@@ -23,6 +23,18 @@ myApp.config(function ($routeProvider) {
             templateUrl: 'views/main.html',
             controller: 'MainCtrl'
         })
+        .when('/rds', {
+            templateUrl: 'views/rds.html',
+            controller: 'RdsCtrl'
+        })
+        .when('/dynamo', {
+            templateUrl: 'views/dynamo.html',
+            controller: 'DynamoCtrl'
+        })
+        .when('/s3', {
+            templateUrl: 'views/s3.html',
+            controller: 'S3Ctrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

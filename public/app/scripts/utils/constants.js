@@ -6,6 +6,9 @@
 
 myUtils.factory('Constants', function () {
     return {
+        // angular specific strings
+        RDS_SERVICE_UPDATE: 'rds_service_update',
+
         // generic strings
         CONNECTED: 'connected!',
         ERROR: 'error',

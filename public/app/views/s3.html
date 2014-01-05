@@ -1,6 +1,10 @@
+<div ng-include src="'views/partial/header.html'"></div>
+
+<h2>S3 Example</h2>
+
 <div class="well">
 
-    <h3>S3</h3>
+    <h3>Upload a picture</h3>
 
     <div class="row">
         <div class="col-md-5">
@@ -13,3 +17,26 @@
     </div>
 
 </div>
+<small>
+    <b>Note</b>
+    <blockquote>
+        You'll need to modify the CORS settings on your S3 bucket for this to work. Try the following configuration:
+        <pre>
+    &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+    &lt;CORSConfiguration xmlns=&quot;http://s3.amazonaws.com/doc/2006-03-01/&quot;&gt;
+        &lt;CORSRule&gt;
+            &lt;AllowedOrigin&gt;*&lt;/AllowedOrigin&gt;
+            &lt;AllowedOrigin&gt;http://localhost:3000&lt;/AllowedOrigin&gt;
+            &lt;AllowedMethod&gt;GET&lt;/AllowedMethod&gt;
+            &lt;AllowedMethod&gt;PUT&lt;/AllowedMethod&gt;
+            &lt;AllowedMethod&gt;POST&lt;/AllowedMethod&gt;
+            &lt;AllowedMethod&gt;DELETE&lt;/AllowedMethod&gt;
+            &lt;MaxAgeSeconds&gt;3000&lt;/MaxAgeSeconds&gt;
+            &lt;AllowedHeader&gt;Content-*&lt;/AllowedHeader&gt;
+            &lt;AllowedHeader&gt;Authorization&lt;/AllowedHeader&gt;
+            &lt;AllowedHeader&gt;*&lt;/AllowedHeader&gt;
+        &lt;/CORSRule&gt;
+    &lt;/CORSConfiguration&gt;
+        </pre>
+    </blockquote>
+</small>

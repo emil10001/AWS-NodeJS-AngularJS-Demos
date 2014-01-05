@@ -1,0 +1,13 @@
+<div ng-include src="'views/partial/header.html'"></div>
+
+<h2>DynamoDB Example</h2>
+<div ng-include src="'views/users.html'"></div>
+<small>
+    <b>Note</b>
+    <blockquote>
+        Using an integer primary key in dynamo is not wise. DynamoDB requires you to pass in a unique id
+        for each new entry, so if you don't know what's been used already, it might be tough to figure out what this
+        should be. It would be smarter to use a hash value for the primary key instead. I didn't realize that when I
+        set this up, and since it's small, I can deal with it manually.
+    </blockquote>
+</small>

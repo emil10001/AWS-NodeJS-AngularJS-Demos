@@ -17,8 +17,6 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
      */
 
     $scope.fileInputChange = function () {
-        var fileInput = document.getElementById('fileInput');
-        var fileInputArea = document.getElementById('fileInputArea');
         SocketService.getUrlPair();
     };
 
@@ -26,12 +24,19 @@ myApp.controller('S3Ctrl', function ($scope, $http, SocketService, Constants) {
         console.log(Constants.S3_GET_URLPAIR, data);
 
         var fileInput = document.getElementById('fileInput');
-        var fileInputArea = document.getElementById('fileInputArea');
+        console.log('detected file', fileInput.files[0]);
 
         var url = data[Constants.S3_PUT_URL];
         var getUrl = data[Constants.S3_GET_URL];
 
         var file = fileInput.files[0];
+        var userMedia = {
+            uid: 1,
+            name: file.name,
+            type: file.type,
+            url: getUrl
+        };
+
         var xhr = new XMLHttpRequest();
         xhr.file = file; // not necessary if you create scopes like this
         xhr.addEventListener('progress', function(e) {

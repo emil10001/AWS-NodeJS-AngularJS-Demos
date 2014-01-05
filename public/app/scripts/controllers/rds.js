@@ -1,22 +1,15 @@
 'use strict';
 
-myApp.controller('RdsCtrl', function ($scope, SocketService, Constants) {
+myApp.controller('RdsCtrl', function ($scope, SocketService, RdsService, Constants) {
     $scope.users = [];
     $scope.newUser = {};
     $scope.requireId = false;
 
-    $scope.$on(Constants.RDS_GET_USERS, function (event, data) {
+    $scope.$on(Constants.RDS_SERVICE_UPDATE, function (event, data) {
         $scope.$apply(function () {
-            console.log(Constants.RDS_GET_USERS, data);
-            $scope.users = data;
+            $scope.users = RdsService.users;
+            console.log(Constants.RDS_SERVICE_UPDATE, $scope.users);
         });
-    });
-
-    $scope.$on(Constants.RDS_UPDATE_USER, function (event, data) {
-        SocketService.getRdsUsers();
-    });
-    $scope.$on(Constants.RDS_DELETE_USER, function (event, data) {
-        SocketService.getRdsUsers();
     });
 
     $scope.addUser = function () {

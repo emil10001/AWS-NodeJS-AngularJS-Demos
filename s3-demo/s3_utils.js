@@ -18,9 +18,9 @@ S3Utils = function (s3) {
 
     this.generateUrlPair = function (socket) {
         var urlPair = {};
-        var key = crypto.createHash('sha1').update(new Date().getTime().toString()).digest('base64');
-        console.log('requesting url pair for', key);
+        var key = crypto.createHash('sha1').update(new Date().getTime().toString()).digest('base64').toString();
         key = qs.escape(key);
+        console.log('requesting url pair for', key);
         urlPair[c.S3_KEY] = key;
         var putParams = {Bucket: c.S3_BUCKET, Key: key, ACL: "public-read", ContentType: "application/octet-stream" };
         s3.getSignedUrl('putObject', putParams, function (err, url) {
