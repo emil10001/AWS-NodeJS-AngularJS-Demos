@@ -1,7 +1,7 @@
 'use strict';
 
 myApp.controller('DynamoCtrl', function ($scope, SocketService, DynamoService, Constants) {
-    $scope.users = [];
+    $scope.users = DynamoService.users;
     $scope.newUser = {};
     $scope.requireId = true;
 

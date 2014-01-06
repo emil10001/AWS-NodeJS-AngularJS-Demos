@@ -1,7 +1,7 @@
 'use strict';
 
 myApp.controller('S3RdsCtrl', function ($scope, SocketService, Constants, S3Service, RdsService) {
-    $scope.users = [];
+    $scope.users = RdsService.users;
     $scope.user;
     $scope.userMedia;
 

@@ -1,7 +1,7 @@
 'use strict';
 
 myApp.controller('RdsCtrl', function ($scope, SocketService, RdsService, Constants) {
-    $scope.users = [];
+    $scope.users = RdsService.users;
     $scope.newUser = {};
     $scope.requireId = false;
 

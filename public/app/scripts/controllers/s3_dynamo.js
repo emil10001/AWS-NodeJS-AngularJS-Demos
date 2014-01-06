@@ -1,7 +1,7 @@
 'use strict';
 
 myApp.controller('S3DynamoCtrl', function ($scope, SocketService, Constants, S3Service, DynamoService) {
-    $scope.users = [];
+    $scope.users = DynamoService.users;
     $scope.user;
     $scope.userMedia;
 
