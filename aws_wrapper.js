@@ -50,7 +50,7 @@ var rds_conf = {
     password: mysqlPassword
 };
 
-AwsWrapper = function () {
+function AwsWrapper () {
     // Dynamo
     this.dynamodb = new AWS.DynamoDB();
     this.DynamoUsers = new dynamoUsers(this.dynamodb);
