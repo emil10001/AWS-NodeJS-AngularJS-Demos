@@ -9,7 +9,7 @@ var io = require('socket.io').listen(3001)
     , aws_func = require('./aws_wrapper.js')
     , c = require('./constants.js');
 
-var aws = new aws_func();
+var aws = aws_func;
 
 io.sockets.on('connection', function (socket) {
     // on connect
@@ -94,6 +94,6 @@ io.sockets.on('connection', function (socket) {
 
 connect()
     .use(connect.static(directory))
-    .listen(80);
+    .listen(3000);
 
-console.log('Listening on port 80.');
+console.log('Listening on port 3000.');

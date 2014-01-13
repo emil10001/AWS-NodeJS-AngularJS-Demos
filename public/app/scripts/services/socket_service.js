@@ -76,7 +76,7 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
     // Socket.io connect
     (function () {
         // Connect to Socket.io server
-        self.socketCon = io.connect('http://127.0.0.1:3001');
+        self.socketCon = io.connect('http://awsnodeangulardemos-env.elasticbeanstalk.com:3001');
 
         /**** Dynamo *****/
             // Server returned data, inform listeners
