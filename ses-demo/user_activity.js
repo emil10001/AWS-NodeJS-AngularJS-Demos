@@ -82,12 +82,13 @@ UserActivity = function (ses, dynamoMedia, dynamoEmails) {
 function getHtmlBodyFor(user, userMedia) {
     var title = "<h1>" + user.name + "'s media</h1>"
     var imgs = "";
+    var unsubscribe = "<br><small><a href=\"http://awsnodeangulardemos-env.elasticbeanstalk.com/#/ses\">Unsubscribe</a></small>"
 
     for (var i = 0; i < userMedia.length; i++) {
         imgs += "<br><img src=" + userMedia[i].url + " width=\"300\">"
     }
 
-    return title + imgs;
+    return title + imgs + unsubscribe;
 }
 
 module.exports = UserActivity;
