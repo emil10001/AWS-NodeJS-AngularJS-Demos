@@ -100,6 +100,7 @@ function endsWith(str, suffix) {
 app.use(function (request, response, next) {
     if ("post" === request.method.toLowerCase()) {
         if (endsWith(request.url,"sns")){
+
             console.log("captured request", request);
             var queryData = "";
             request.on('data', function(data) {
@@ -113,9 +114,7 @@ app.use(function (request, response, next) {
 
             request.on('end', function() {
                 console.log("captured request BODY", queryData);
-                response.writeHead(200, { "Content-Type": "text/plain" });
-                response.end("kthnksbye");
-                aws.SesBounce.handleBounce(JSON.parse(queryData);
+                aws.SesBounce.handleBounce(JSON.parse(queryData));
                 return;
             });
 
