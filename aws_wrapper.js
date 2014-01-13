@@ -71,7 +71,7 @@ AwsWrapper = function () {
 
     // SES
     this.ses = new AWS.SES();
-    this.SesUserActivity = new userActivity(this.ses, this.DynamoMedia);
+    this.SesUserActivity = new userActivity(this.ses, this.DynamoMedia, this.DynamoEmail);
 };
 
 module.exports = AwsWrapper;

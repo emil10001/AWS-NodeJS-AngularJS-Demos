@@ -6,6 +6,7 @@ var c = require('../constants')
 
 Emails = function (dynamodb) {
     this.dynamodb = dynamodb;
+    var self = this;
 
     /**
      * This does not do any thinking, just grabs stuff from Dynamo
@@ -38,6 +39,27 @@ Emails = function (dynamodb) {
                 console.log(c.DYN_GET_EMAIL, finalData);
                 callback(finalData);
             }
+        });
+    };
+
+    this.allowedToSend = function(email, callback){
+        self.getEmail(email, function(data, err){
+            if (!!err){
+                callback(false, err);
+                return;
+            }
+
+            if (!data || data.length < 1){
+                callback(true);
+                return;
+            }
+
+            // block more than 5 messages to a particular account
+            if (data[0].count > 5)
+                callback(false);
+            else
+                callback(true);
+
         });
     };
 
@@ -74,6 +96,35 @@ Emails = function (dynamodb) {
             }
         });
     };
+
+    this.iterateEmail = function(email, callback){
+        self.getEmail(email, function(data, err){
+            if (!!err){
+                callback(null, err);
+                return;
+            }
+
+            var emailCount = {};
+            if (!data || data.length < 1){
+                emailCount.email = email;
+                emailCount.count = 1;
+            } else {
+                emailCount = data[0];
+                if (!emailCount
+                    || !emailCount.email
+                    || !(emailCount.count < 0 || emailCount.count >=0)){
+                    emailCount.email = email;
+                    emailCount.count = 1;
+                } else {
+                    emailCount.count += 1;
+                }
+            }
+
+            self.addUpdateEmail(emailCount, function(data2,err2){
+                callback(data2,err2);
+            });
+        });
+    }
 
     /**
      * This can be called similarly to how the other Dynamo examples.
