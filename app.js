@@ -9,7 +9,12 @@ var io = require('socket.io').listen(3001)
     , aws_func = require('./aws_wrapper.js')
     , c = require('./constants.js');
 
-var aws = aws_func;
+var aws;
+
+if (!!process.env['AWS_ENV'] && !!process.env['AWS_ENV'] === 'dev')
+    aws = new aws_func();
+else
+    aws = aws_func;
 
 io.sockets.on('connection', function (socket) {
     // on connect
