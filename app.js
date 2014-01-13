@@ -100,14 +100,26 @@ function endsWith(str, suffix) {
 app.use(function (request, response, next) {
     if ("post" === request.method.toLowerCase()) {
         if (endsWith(request.url,"sns")){
-            console.log("captured request", request)
-            if (!!request.body){
-                console.log("captured request BODY", request.body)
+            console.log("captured request", request);
+            var queryData = "";
+            request.on('data', function(data) {
+                queryData += data;
+                if(queryData.length > 1e6) {
+                    queryData = "";
+                    response.writeHead(413, {'Content-Type': 'text/plain'}).end();
+                    request.connection.destroy();
+                }
+            });
+
+            request.on('end', function() {
+                console.log("captured request BODY", queryData);
                 response.writeHead(200, { "Content-Type": "text/plain" });
-                response.end("");
-                aws.SesBounce.handleBounce(request.body);
+                response.end("kthnksbye");
+                aws.SesBounce.handleBounce(JSON.parse(queryData);
                 return;
-            }
+            });
+
+
         }
     }
 
