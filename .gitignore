@@ -3,3 +3,4 @@ node_modules
 .iml
 aws_config.json
 aws/aws_config.json
+.elasticbeanstalk/

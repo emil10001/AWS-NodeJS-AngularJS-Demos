@@ -1,15 +1,21 @@
 {
     "name": "application-name",
+    "author": "ejohn@feigdev.com",
     "version": "0.0.1",
     "private": true,
+    "description": "stuff",
+    "keywords": ["aws", "nodejs", "angularjs"],
+    "bugs": "ejohn@feigdev.com",
+    "contributors": "ejohn@feigdev.com",
     "scripts": {
         "start": "node app.js"
     },
     "dependencies": {
-        "connect": "*",
+        "express": "3.4.7",
+        "connect": "2.12.0",
         "socket.io": "0.9.16",
         "aws-sdk": "2.0.0-rc4",
         "mysql": "2.0.0-rc2"
     },
-    "engine": "node = 0.10.22"
+    "engines": {"node": "0.10.21"}
 }
