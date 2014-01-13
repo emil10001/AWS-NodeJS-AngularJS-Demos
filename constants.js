@@ -6,6 +6,7 @@ module.exports = {
     // generic strings
     CONNECTED: 'connected!',
     ERROR: 'error',
+    SUCCESS: 'success',
 
     // dynamo request constants
     DYN_GET_USERS: 'dynamo_get_users',
@@ -17,9 +18,17 @@ module.exports = {
     DYN_DELETE_USER: 'dynamo_delete_user',
     DYN_DELETE_MEDIA: 'dynamo_delete_media',
 
+    // ses emails
+    DYN_GET_EMAIL: 'dynamo_get_email',
+    DYN_UPDATE_EMAIL: 'dynamo_update_email',
+    DYN_UNSUBSCRIBE_EMAIL: 'dynamo_unsubscribe_email',
+
+    SES_SEND_EMAIL: 'ses_send_email',
+
     // dynamo tables
     DYN_USERS_TABLE: 'aws_node_demo_dynamo_users',
     DYN_MEDIA_TABLE: 'aws_node_demo_dynamo_media',
+    DYN_EMAIL_TABLE: 'aws_node_demo_dynamo_emails',
 
     // rds request constants
     RDS_GET_USERS: 'rds_get_users',
@@ -38,4 +47,5 @@ module.exports = {
     S3_PUT_URL: 's3_put_url',
     S3_KEY: 's3_key',
     S3_DELETE: 's3_delete'
+
 };

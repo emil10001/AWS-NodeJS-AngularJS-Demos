@@ -39,6 +39,10 @@ myApp.config(function ($routeProvider) {
             templateUrl: 'views/s3.html',
             controller: 'S3RdsCtrl'
         })
+        .when('/ses', {
+            templateUrl: 'views/ses.html',
+            controller: 'SesCtrl'
+        })
         .otherwise({
             redirectTo: '/'
         });

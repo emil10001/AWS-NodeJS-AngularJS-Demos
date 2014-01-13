@@ -1,0 +1,32 @@
+<div ng-include src="'views/partial/header.html'"></div>
+
+<h2>SES Example</h2>
+
+<div class="row">
+    <span class="col-md-2">Unsubscribe:</span>
+    <form class="col-md-6" ng-submit="unsubscribe()">
+        <input type="email" ng-model="tmpUser.email" size="30" placeholder="email">
+    </form>
+</div>
+<br>
+<div class="row">
+    <span class="col-md-2">Select a user:</span>
+    <select class="col-md-4" ng-model="user" ng-options="c.name for c in users"></select>
+    <div class="col-md-6">{{ user.name }} - {{ user.email }}
+        <a class="btn btn-xs" ng-click="sendEmail()"><i
+            class="icon-envelope-alt icon-white"></i></a>
+    </div>
+</span>
+</div>
+<br>
+<div class="well">
+    <div class="row">
+    </div>
+</div>
+<small>
+    <b>Note</b>
+    <blockquote>
+        This example is only backed by Dynamo. If you want an email address to show up, enter it in the DynamoDB
+        example.
+    </blockquote>
+</small>

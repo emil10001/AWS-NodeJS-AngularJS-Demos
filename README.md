@@ -45,3 +45,14 @@ S3
 SES
 ---------------------
 
+SES uses another DynamoDB table to track emails that have been sent. We want
+to ensure that users have the ability to unsubscribe, and we don't want people
+sending them multiple messages. Here's the schema for the Dynamo table:
+
+     Emails: {
+         email: "steve@example.com",
+         count: 1
+     }
+
+That's it! We're just going to check if the email is in that table, and what the
+count is before doing anything, then update the record after the email has been sent.

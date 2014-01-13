@@ -18,29 +18,29 @@ io.sockets.on('connection', function (socket) {
     /**** Dynamo *****/
     // get requests
     socket.on(c.DYN_GET_MEDIA, function () {
-        aws.DyanmoMedia.getAll(socket);
+        aws.DynamoMedia.getAll(socket);
     });
     socket.on(c.DYN_GET_USER_MEDIA, function (user) {
-        aws.DyanmoMedia.getUserMedia(user, socket);
+        aws.DynamoMedia.getUserMedia(user, socket);
     });
     socket.on(c.DYN_GET_USERS, function () {
-        aws.DyanmoUsers.getAll(socket);
+        aws.DynamoUsers.getAll(socket);
     });
 
     // put requests
     socket.on(c.DYN_UPDATE_MEDIA, function (media) {
-        aws.DyanmoMedia.addUpdateMedia(media, socket);
+        aws.DynamoMedia.addUpdateMedia(media, socket);
     });
     socket.on(c.DYN_UPDATE_USER, function (user) {
-        aws.DyanmoUsers.addUpdateUser(user, socket);
+        aws.DynamoUsers.addUpdateUser(user, socket);
     });
 
     // delete requests
     socket.on(c.DYN_DELETE_USER, function (userId) {
-        aws.DyanmoUsers.deleteUser(userId, socket);
+        aws.DynamoUsers.deleteUser(userId, socket);
     });
     socket.on(c.DYN_DELETE_MEDIA, function (mId) {
-        aws.DyanmoMedia.deleteMedia(mId, socket);
+        aws.DynamoMedia.deleteMedia(mId, socket);
     });
 
     /**** RDS *****/
@@ -80,6 +80,16 @@ io.sockets.on('connection', function (socket) {
     socket.on(c.S3_DELETE, function (key) {
         aws.S3Utils.deleteMedia(key, socket);
     });
+
+    /**** SES *****/
+    // for unsubscribing
+    socket.on(c.DYN_UNSUBSCRIBE_EMAIL, function (email) {
+        aws.DynamoEmail.unsubscribe(email, socket);
+    });
+    socket.on(c.SES_SEND_EMAIL, function(user){
+        aws.SesUserActivity.sendEmail(user, socket);
+    });
+
 });
 
 connect()
