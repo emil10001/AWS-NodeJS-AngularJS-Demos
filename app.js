@@ -98,9 +98,9 @@ function endsWith(str, suffix) {
 }
 
 app.use(function (request, response, next) {
-    console.log("captured request", request)
     if ("post" === request.method.toLowerCase()) {
         if (endsWith(request.url,"sns")){
+            console.log("captured request", request)
             response.writeHead(200, { "Content-Type": "text/plain" });
             response.end("");
             aws.SesBounce.handleBounce(request.body);
