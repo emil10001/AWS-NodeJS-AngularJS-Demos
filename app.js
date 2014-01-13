@@ -94,6 +94,6 @@ io.sockets.on('connection', function (socket) {
 
 connect()
     .use(connect.static(directory))
-    .listen(3000);
+    .listen(80);
 
-console.log('Listening on port 3000.');
+console.log('Listening on port 80.');
