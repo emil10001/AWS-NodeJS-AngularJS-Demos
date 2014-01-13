@@ -55,7 +55,7 @@ Emails = function (dynamodb) {
             }
 
             // block more than 5 messages to a particular account
-            if (data[0].count > 5)
+            if (data[0].count > c.MAX_EMAILS_ALLOWED)
                 callback(false);
             else
                 callback(true);
@@ -142,6 +142,25 @@ Emails = function (dynamodb) {
                 console.log(c.DYN_UNSUBSCRIBE_EMAIL, data);
                 socket.emit(c.DYN_UNSUBSCRIBE_EMAIL, data);
             }
+        };
+
+        var dontEmail = {
+            email: email,
+            count: 1000
+        }
+        this.addUpdateEmail(dontEmail, callback);
+    };
+
+    /**
+     * This can be called similarly to how the other Dynamo examples.
+     * It just creates a record that should disallow further mailings.
+     *
+     * @param email - a string, e.g. "steve@example.com"
+     * @param socket
+     */
+    this.silentUnsubscribe = function (email) {
+        var callback = function (data, error) {
+            console.log(c.DYN_UNSUBSCRIBE_EMAIL, data, error);
         };
 
         var dontEmail = {

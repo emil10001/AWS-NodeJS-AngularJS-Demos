@@ -24,6 +24,7 @@ module.exports = {
     DYN_UNSUBSCRIBE_EMAIL: 'dynamo_unsubscribe_email',
 
     SES_SEND_EMAIL: 'ses_send_email',
+    MAX_EMAILS_ALLOWED: 3,
 
     // dynamo tables
     DYN_USERS_TABLE: 'aws_node_demo_dynamo_users',

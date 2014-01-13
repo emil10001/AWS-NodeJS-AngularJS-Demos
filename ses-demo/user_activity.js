@@ -3,7 +3,7 @@
  */
 var c = require('../constants');
 
-UserActivity = function (ses, dynamoMedia, dynamoEmails) {
+var UserActivity = function (ses, dynamoMedia, dynamoEmails) {
     this.ses = ses;
     this.dynamoMedia = dynamoMedia;
     this.dynamoEmails = dynamoEmails;

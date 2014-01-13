@@ -19,6 +19,7 @@ AWS.config.apiVersions = {
     s3: '2006-03-01',
     rds: '2013-09-09',
     dynamodb: '2012-08-10',
+    sns: '2010-03-31',
     ses: '2010-12-01'
 };
 
@@ -29,6 +30,7 @@ var dynamoUsers = require('./dynamo-demo/users.js')
     , rdsMedia = require('./rds-demo/media.js')
     , S3Utils = require('./s3-demo/s3_utils.js')
     , userActivity = require('./ses-demo/user_activity.js')
+    , bounce = require('./ses-demo/bounces.js')
     ;
 
 if (process === undefined) {
@@ -71,7 +73,9 @@ function AwsWrapper () {
 
     // SES
     this.ses = new AWS.SES();
+    this.sns = new AWS.SNS();
     this.SesUserActivity = new userActivity(this.ses, this.DynamoMedia, this.DynamoEmail);
+    this.SesBounce = new bounce(this.sns, this.ses, this.DynamoEmail);
 };
 
 module.exports = AwsWrapper;
