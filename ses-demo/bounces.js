@@ -26,6 +26,10 @@ var Bounces = function (sns, ses, dynamoEmails) {
             return;
         }
 
+        if (!!request.Message && !!request.Type && "Notification" === request.Type){
+            request = JSON.parse(request.Message);
+        }
+
         if ("Bounce" === request.notificationType && !!request.bounce){
             if (!!request.bounce.bouncedRecipients && !!request.bounce.bouncedRecipients.length > 0){
                 for (var i=0; i<request.bounce.bouncedRecipients.length; i++){
