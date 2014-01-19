@@ -53,27 +53,30 @@ var rds_conf = {
 };
 
 function AwsWrapper () {
-    // Dynamo
-    this.dynamodb = new AWS.DynamoDB();
-    this.DynamoUsers = new dynamoUsers(this.dynamodb);
-    this.DynamoMedia = new dynamoMedia(this.dynamodb);
-    this.DynamoEmail = new dynamoEmail(this.dynamodb);
-    console.log('init dynamo wrappers');
-
-    // RDS
-    this.rds = new AWS.RDS();
-    this.RdsUsers = new rdsUsers(this.rds, rds_conf);
-    this.RdsMedia = new rdsMedia(this.rds, rds_conf);
-    console.log('init rds wrappers');
-
-    // S3
+    // AWS services
     this.s3 = new AWS.S3();
-    this.S3Utils = new S3Utils(this.s3);
-    console.log('init s3 wrapper');
-
-    // SES
     this.ses = new AWS.SES();
     this.sns = new AWS.SNS();
+    this.dynamodb = new AWS.DynamoDB();
+    this.rds = new AWS.RDS();
+
+    // S3
+    console.log('init s3 wrapper');
+    this.S3Utils = new S3Utils(this.s3);
+
+    // Dynamo
+    console.log('init dynamo wrappers');
+    this.DynamoMedia = new dynamoMedia(this.dynamodb, this.S3Utils);
+    this.DynamoUsers = new dynamoUsers(this.dynamodb, this.DynamoMedia);
+    this.DynamoEmail = new dynamoEmail(this.dynamodb);
+
+    // RDS
+    console.log('init rds wrappers');
+    this.RdsMedia = new rdsMedia(this.rds, rds_conf, this.S3Utils);
+    this.RdsUsers = new rdsUsers(this.rds, rds_conf, this.RdsMedia);
+
+    // SES
+    console.log('init ses wrappers');
     this.SesUserActivity = new userActivity(this.ses, this.DynamoMedia, this.DynamoEmail);
     this.SesBounce = new bounce(this.sns, this.ses, this.DynamoEmail);
 };

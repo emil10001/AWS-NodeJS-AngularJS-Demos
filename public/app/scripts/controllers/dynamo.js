@@ -13,7 +13,7 @@ myApp.controller('DynamoCtrl', function ($scope, SocketService, DynamoService, C
     });
 
     $scope.addUser = function () {
-        SocketService.putDynUser({id: DynamoService.calcId(), name: $scope.newUser.name, email: $scope.newUser.email});
+        SocketService.putDynUser({name: $scope.newUser.name, email: $scope.newUser.email});
         $scope.newUser = {};
     };
 

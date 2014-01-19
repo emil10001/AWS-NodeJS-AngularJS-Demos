@@ -2,10 +2,13 @@
  * Created by ejf3 on 11/20/13.
  */
 var c = require('../constants')
+    , crypto = require('crypto')
     , converter = require('../utils/dynamo_to_json.js');
 
-Users = function (dynamodb) {
+Users = function (dynamodb, dynMedia) {
     this.dynamodb = dynamodb;
+    this.dynMedia = dynMedia;
+    var self = this;
 
     this.getAll = function (socket) {
         console.log(c.DYN_GET_USERS, c.DYN_USERS_TABLE);
@@ -26,6 +29,7 @@ Users = function (dynamodb) {
 
     this.addUpdateUser = function (user, socket) {
         console.log(c.DYN_UPDATE_USER);
+        user.id = parseInt(crypto.createHash('sha1').update(user.email).digest('hex'), 16) % 1000000000;
         var userObj = converter.ConvertFromJson(user);
         this.dynamodb.putItem({
             "TableName": c.DYN_USERS_TABLE,
@@ -53,6 +57,7 @@ Users = function (dynamodb) {
                 socket.emit(c.DYN_DELETE_USER, "error");
             } else {
                 console.log(c.DYN_DELETE_USER, data);
+                self.dynMedia.deleteUserMedia(userId, socket);
                 socket.emit(c.DYN_DELETE_USER, data);
             }
         });

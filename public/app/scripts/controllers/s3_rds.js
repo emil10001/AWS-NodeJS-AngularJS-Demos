@@ -24,8 +24,8 @@ myApp.controller('S3RdsCtrl', function ($scope, SocketService, Constants, S3Serv
     });
 
     $scope.deleteMedia = function(media){
-        SocketService.deleteRdsMedia(media.id);
-        SocketService.deleteS3(media.mkey);
+        SocketService.deleteRdsMedia(media);
+//        SocketService.deleteS3(media.mkey);
     };
 
     $scope.selectUserMedia = function(media){

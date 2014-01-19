@@ -31,7 +31,7 @@ myApp.controller('S3DynamoCtrl', function ($scope, SocketService, Constants, S3S
 
     $scope.deleteMedia = function(media){
         SocketService.deleteDynMedia(media.id);
-        SocketService.deleteS3(media.id);
+//        SocketService.deleteS3(media.id);
     };
 
     $scope.$on(Constants.DYN_SERVICE_UPDATE, function (event, data) {

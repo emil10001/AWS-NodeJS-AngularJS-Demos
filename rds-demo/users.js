@@ -6,9 +6,12 @@ var c = require('../constants')
     , mysql = require('mysql');
 
 
-Users = function (rds, conf) {
+Users = function (rds, conf, rdsMedia) {
     this.rds = rds;
     this.connection = mysql.createConnection(conf);
+    this.rdsMedia = rdsMedia;
+    var self = this;
+
     this.connection.connect(function(err){
         if (err)
             console.error("couldn't connect",err);
@@ -43,16 +46,18 @@ Users = function (rds, conf) {
     };
 
     this.deleteUser = function(userId, socket){
-        var query = this.connection.query('DELETE FROM users WHERE id = ?', userId, function(err, result) {
-            if (err) {
-                console.error("failed to delete",err);
-                socket.emit(c.RDS_DELETE_USER, c.ERROR);
-            } else {
-                console.log("deleted",result);
-                socket.emit(c.RDS_DELETE_USER, result);
-            }
-        });
-        console.log(query.sql);
+        self.rdsMedia.deleteUserMedia(userId, function(){
+            var query = self.connection.query('DELETE FROM users WHERE id = ?', userId, function(err, result) {
+                if (err) {
+                    console.error("failed to delete",err);
+                    socket.emit(c.RDS_DELETE_USER, c.ERROR);
+                } else {
+                    console.log("deleted",result);
+                    socket.emit(c.RDS_DELETE_USER, result);
+                }
+            });
+            console.log(query.sql);
+        }, socket);
     };
 };
 

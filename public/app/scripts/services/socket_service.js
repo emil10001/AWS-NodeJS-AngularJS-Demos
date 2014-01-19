@@ -50,8 +50,8 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
     this.putDynMedia = function (media) {
         self.socketCon.emit(Constants.DYN_UPDATE_MEDIA, media);
     };
-    this.deleteRdsMedia = function (mediaId) {
-        self.socketCon.emit(Constants.RDS_DELETE_MEDIA, mediaId);
+    this.deleteRdsMedia = function (media) {
+        self.socketCon.emit(Constants.RDS_DELETE_MEDIA, media);
     };
     this.deleteDynMedia = function (mediaId) {
         self.socketCon.emit(Constants.DYN_DELETE_MEDIA, mediaId);
@@ -76,7 +76,8 @@ myServices.service('SocketService', function SocketService($rootScope, Constants
     // Socket.io connect
     (function () {
         // Connect to Socket.io server
-        self.socketCon = io.connect('http://awsnodeangulardemos-env.elasticbeanstalk.com:3001');
+//        self.socketCon = io.connect('http://awsnodeangulardemos-env.elasticbeanstalk.com:3001');
+        self.socketCon = io.connect('http://127.0.0.1:3001');
 
         /**** Dynamo *****/
             // Server returned data, inform listeners

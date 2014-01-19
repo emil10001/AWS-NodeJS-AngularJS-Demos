@@ -5,9 +5,12 @@ var c = require('../constants')
     , converter = require('../utils/dynamo_to_json.js')
     , mysql = require('mysql');
 
-Media = function (rds, conf) {
+Media = function (rds, conf, s3Utils) {
     this.rds = rds;
     this.connection = mysql.createConnection(conf);
+    this.s3Utils = s3Utils;
+    var self = this;
+
     this.connection.connect(function (err) {
         if (err)
             console.error("couldn't connect", err);
@@ -54,19 +57,38 @@ Media = function (rds, conf) {
         console.log(query.sql);
     };
 
-    this.deleteMedia = function(mediaId, socket){
-        var query = this.connection.query('DELETE FROM media WHERE id = ?;', mediaId, function(err, result) {
+    this.deleteMedia = function(media, socket){
+        var query = this.connection.query('DELETE FROM media WHERE id = ?;', media.id, function(err, result) {
             if (err) {
                 console.error("failed to delete",err);
                 socket.emit(c.RDS_DELETE_MEDIA, c.ERROR);
             } else {
                 console.log("deleted",result);
+                self.s3Utils.deleteMedia(media.mkey, socket);
                 socket.emit(c.RDS_DELETE_MEDIA, result);
             }
         });
         console.log(query.sql);
     };
 
+    this.deleteUserMedia = function(uId, callback, socket){
+        var query = this.connection.query('select * from media where uid = ?;', uId, function(err,result){
+            if (err){
+                console.error("failed to get",err);
+                socket.emit(c.RDS_GET_USER_MEDIA, c.ERROR);
+            } else {
+                console.log("got",result);
+
+                for (var i=0; i<result.length; i++)
+                    self.deleteMedia(result[i], socket);
+
+                // there's a race condition here, but solving it would require
+                // re-architecting the RDS media
+                setTimeout(callback, 1000);
+            }
+        });
+        console.log(query.sql);
+    };
 
 };
 module.exports = Media;

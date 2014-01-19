@@ -68,8 +68,8 @@ io.sockets.on('connection', function (socket) {
     socket.on(c.RDS_DELETE_USER, function (userId) {
         aws.RdsUsers.deleteUser(userId, socket);
     });
-    socket.on(c.RDS_DELETE_MEDIA, function (mId) {
-        aws.RdsMedia.deleteMedia(mId, socket);
+    socket.on(c.RDS_DELETE_MEDIA, function (media) {
+        aws.RdsMedia.deleteMedia(media, socket);
     });
 
     /**** S3 *****/
