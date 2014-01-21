@@ -1,6 +1,9 @@
 <div ng-include src="'views/partial/header.html'"></div>
 
 <div class="well">
+    <h2>Introduction</h2>
+    This is a demo application that walks through what's required to talk to the following AWS services using node.js,
+    AngularJS, and socket.io:
     <ul>
         <li><a ng-href="#/dynamo">DynamoDB</a> - A simple dataset backed by DynamoDB</li>
         <li><a ng-href="#/rds">RDS</a> - The same fields as the Dynamo example, but using RDS</li>
@@ -8,4 +11,13 @@
         <li><a ng-href="#/s3_rds">S3 RDS</a> - Upload a file to S3, keep track with RDS</li>
         <li><a ng-href="#/ses">SES</a> - Email a user!</li>
     </ul>
+    <p>A few SNS bits are covered in the server code as well.</p>
+
+    <p>Start with the <a ng-href="#/dynamo">DynamoDB</a> example, and enter an email address and a name. Next, you can
+    go to the <a ng-href="#/s3_dynamo">S3 Dynamo</a> example and upload an image or two. Finally, if you visit the
+    <a ng-href="#/ses">SES</a> page, you can send yourself an email with your media.</p>
+
+    <p><a href="https://github.com/emil10001/AWS-NodeJS-AngularJS-Demos">
+        Here's the github repo for this.</a></p>
+
 </div>
