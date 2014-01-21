@@ -26,3 +26,47 @@
         example.
     </blockquote>
 </small>
+<h2>Code</h2>
+The following is a few methods that you'll find in the node.js code. Essentially,
+the basics are there, and we spit the results out over a socket.io socket. The socket
+will be used throughout most of the examples.
+<h3>Initialize</h3>
+<pre class="pre-scrollable">
+AWS.config.region = &quot;us-east-1&quot;;
+AWS.config.apiVersions = {
+    sns: '2010-03-31',
+    ses: '2010-12-01'
+};
+var ses = new AWS.SES();
+</pre>
+<h3>Send Email</h3>
+<pre class="pre-scrollable">
+var sendEmail = function (user, userMedia, socket) {
+    var params = {
+        Source: &quot;me@mydomain.com&quot;,
+        Destination: {
+            ToAddresses: [user.email]
+        },
+        Message: {
+            Subject: {
+                Data: user.name + &quot;'s media&quot;
+            },
+            Body: {
+                Text: {
+                    Data: &quot;please enable HTML to view this message&quot;
+                },
+                Html: {
+                    Data: getHtmlBodyFor(user, userMedia)
+                }
+            }
+        }
+    };
+    ses.sendEmail(params, function (err, data) {
+        if (err) {
+            socket.emit(c.SES_SEND_EMAIL, c.ERROR);
+        } else {
+            socket.emit(c.SES_SEND_EMAIL, c.SUCCESS);
+        }
+    });
+};
+</pre>

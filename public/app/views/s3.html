@@ -53,3 +53,48 @@
         </pre>
     </blockquote>
 </small>
+<h2>Code</h2>
+The following is a few methods that you'll find in the node.js code. Essentially,
+the basics are there, and we spit the results out over a socket.io socket. The socket
+will be used throughout most of the examples.
+<h3>Initialize</h3>
+<pre class="pre-scrollable">
+AWS.config.region = &quot;us-east-1&quot;;
+AWS.config.apiVersions = {
+    s3: '2006-03-01',
+};
+var s3 = new AWS.S3();
+</pre>
+<h3>Generate signed URL pair</h3>
+        Note: the GET URL is public, since that's how we want it. We could have easily
+        generated a signed GET URL, and kept the objects in the bucket private.
+<pre class="pre-scrollable">
+var generateUrlPair = function (socket) {
+    var urlPair = {};
+    var key = genRandomKeyString();
+    urlPair[c.S3_KEY] = key;
+    var putParams = {Bucket: c.S3_BUCKET, Key: key, ACL: &quot;public-read&quot;, ContentType: &quot;application/octet-stream&quot; };
+    s3.getSignedUrl('putObject', putParams, function (err, url) {
+        if (!!err) {
+            socket.emit(c.S3_GET_URLPAIR, c.ERROR);
+            return;
+        }
+        urlPair[c.S3_PUT_URL] = url;
+        urlPair[c.S3_GET_URL] = &quot;https://aws-node-demos.s3.amazonaws.com/&quot; + qs.escape(key);
+        socket.emit(c.S3_GET_URLPAIR, urlPair);
+    });
+};
+</pre>
+<h3>Delete Object from bucket</h3>
+<pre class="pre-scrollable">
+var deleteMedia = function(key, socket) {
+    var params = {Bucket: c.S3_BUCKET, Key: key};
+    s3.deleteObject(params, function(err, data){
+        if (!!err) {
+            socket.emit(c.S3_DELETE, c.ERROR);
+            return;
+        }
+        socket.emit(c.S3_DELETE, data);
+    });
+}
+</pre>

@@ -9,3 +9,68 @@
         and hiding the 'id' field using ng-show.
     </blockquote>
 </small>
+<h2>Code</h2>
+The following is a few methods that you'll find in the node.js code. Essentially,
+the basics are there, and we spit the results out over a socket.io socket. The socket
+will be used throughout most of the examples.
+<h3>Initialize</h3>
+<pre class="pre-scrollable">
+AWS.config.region = &quot;us-east-1&quot;;
+AWS.config.apiVersions = {
+    rds: '2013-09-09',
+};
+var rds_conf = {
+    host: mysqlHost,
+    database: "aws_node_demo",
+    user: mysqlUserName,
+    password: mysqlPassword
+};
+var mysql = require('mysql');
+var connection = mysql.createConnection(rds_conf);
+var rds = new AWS.RDS();
+connection.connect(function(err){
+    if (err)
+        console.error(&quot;couldn't connect&quot;,err);
+    else
+        console.log(&quot;mysql connected&quot;);
+});
+</pre>
+<h3>Get all the users</h3>
+<pre class="pre-scrollable">
+var getAll = function(socket){
+    var query = this.connection.query('select * from users;',
+      function(err,result){
+        if (err){
+            socket.emit(c.RDS_GET_USERS, c.ERROR);
+        } else {
+            socket.emit(c.RDS_GET_USERS, result);
+        }
+    });
+};
+</pre>
+<h3>Insert or update a user</h3>
+<pre class="pre-scrollable">
+var addUpdateUser = function(user, socket){
+    var query = this.connection.query('INSERT INTO users SET ?',
+      user, function(err, result) {
+        if (err) {
+            socket.emit(c.RDS_UPDATE_USER, c.ERROR);
+        } else {
+            socket.emit(c.RDS_UPDATE_USER, result);
+        }
+    });
+};
+</pre>
+<h3>Delete a user</h3>
+<pre class="pre-scrollable">
+var deleteUser = function(userId, socket){
+    var query = self.connection.query('DELETE FROM users WHERE id = ?',
+      userId, function(err, result) {
+        if (err) {
+            socket.emit(c.RDS_DELETE_USER, c.ERROR);
+        } else {
+            socket.emit(c.RDS_DELETE_USER, result);
+        }
+    });
+};
+</pre>
