@@ -1,14 +1,14 @@
 Demos using AWS with Node.JS and an AngularJS frontend
 ====================
 
-This is still very early, and only barely works.
-
 This project's goal is to build small demo utilities that should be a
 reasonable approximation of what we might see in an application that uses
 the aws-sdk node.js module. AngularJS will serve as a front-end, with no
 direct access to the aws libraries, and will use the node server to handle
 all requests.
 
+[Here's a temporary EBS instance running to demonstrate this](http://awsnodeangulardemos-env.elasticbeanstalk.com/).
+It will be taken down in a few weeks, so don't get so attached to it.
 
 Data Set
 ---------------------
