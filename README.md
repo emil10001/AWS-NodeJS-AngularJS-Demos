@@ -93,3 +93,14 @@ service for our socket.io connection, and to keep track of data coming in from D
 and RDS. There are controllers for each of the different views that we have, and they
 also coordinate with the services. We are also leveraging Angular's built-in events
 system, to inform various pieces about when things get updated.
+
+Elastic Beanstalk Deployment
+---------------------
+
+[Here's the AWS doc on setting up deployment with git integration straight from your project](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/create_deploy_nodejs.sdlc.html).
+It's super simple. What's not so straightforward, however, is that you need to make sure
+that the ports are set up correctly. If you can just run your node server on port 80,
+that's the easiest thing, but I don't think that the instance that you get from Amazon
+will allow you to do that. So, you'll need to configure your LoadBalancer to forward port
+80 to whatever port you're running on, then open that port in the EC2 security group that
+the Beanstalk environment is running in.
