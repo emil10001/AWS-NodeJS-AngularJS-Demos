@@ -27,6 +27,8 @@ Media = function (dynamodb, s3Utils) {
         });
     };
 
+    // doesn't actually use email, but the important difference here
+    // is that we're returning data in a callback instead of a socket
     this.getUserMediaForEmail = function(uid, callback){
         console.log(c.DYN_GET_USER_MEDIA);
         this.dynamodb.scan({
