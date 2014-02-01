@@ -477,5 +477,24 @@ will allow you to do that. So, you'll need to configure your LoadBalancer to for
 80 to whatever port you're running on, then open that port in the EC2 Security Group that
 the Beanstalk environment is running in.
 
+
+A couple of other notes about the deployment. First, you're going to need to make sure that the node.js version is set correctly, AWS Elastic Beanstalk currently supports up to v0.10.21, but runs an earlier version by default. You will also need to add several environment variables from the console. I use the following parameters:
+
+ * AWS_ACCESS_KEY_ID
+ * AWS_SECRET_ACCESS_KEY
+ * AWS_RDS_HOST
+ * AWS_RDS_MYSQL_USERNAME
+ * AWS_RDS_MYSQL_PASSWORD
+
+Doing this allowed me to not ever commit sensitive data. To get there, log into your AWS console, then go to Elastic Beanstalk and select your environment. Navigate to 'Configuration', then to 'Software Configuration'. From here you can set the node.js version, and add environment variables. You'll need to add the custom names above along with the values. If you're deploying to your own box, you'll need to at least export the above environment variables:
+
+<pre>
+export AWS_ACCESS_KEY_ID='AKID'
+export AWS_SECRET_ACCESS_KEY='SECRET'
+export AWS_RDS_HOST='hostname'
+export AWS_RDS_MYSQL_USERNAME='username'
+export AWS_RDS_MYSQL_PASSWORD='pass'
+</pre>
+
 Once again, do use the git command-line deployment tools, as it allows you to deploy in
 one line after a `git commit`, using `git aws.push`.
