@@ -61,12 +61,6 @@ getting all the users, adding or updating a user (if the user has the same id), 
 deleting a user. The `getAll` method does a `scan` on the Dynamo table, but only returns
 100 results. It's a good idea to limit your results, and then load more as the user requests.
 
-I also had to write a little converter to quickly translate between standard JSON data,
-the format that AWS expects in these requests, and what it returns in results. I have no
-idea why Amazon's format is so verbose, but it's relatively easy to write a converter for it.
-It would be nice if they rolled something like this into their SDK, and just handled it
-auto-magically for you, but such is life.
-
 The `addUpdateUser` method takes in a user object, generates an id based off of the hash of
 the email, then does a `putItem` to Dynamo, which will either create a new entry, or update
 a current one. Finally, `deleteUser` runs the Dynamo API method `deleteItem`.

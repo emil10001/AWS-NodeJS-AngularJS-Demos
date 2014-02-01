@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "private": true,
     "description": "stuff",
-    "keywords": ["aws", "nodejs", "angularjs"],
+    "keywords": ["aws", "nodejs", "angularjs", "amazonaws", "node.js", "socket.io", "dynamodb", "rds", "s3", "ses", "sns", "elasticbeanstalk", "ebs"],
     "bugs": "ejohn@feigdev.com",
     "contributors": "ejohn@feigdev.com",
     "scripts": {
