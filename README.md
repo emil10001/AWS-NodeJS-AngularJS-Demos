@@ -76,6 +76,7 @@ the basics are there, and we spit the results out over a socket.io socket. The s
 will be used throughout most of the examples.
 
 <h3>Initialize</h3>
+
 <pre class="pre-scrollable">
 AWS.config.region = &quot;us-east-1&quot;;
 AWS.config.apiVersions = {
@@ -83,7 +84,9 @@ AWS.config.apiVersions = {
 };
 var dynamodb = new AWS.DynamoDB();
 </pre>
+
 <h3>Get all the users</h3>
+
 <pre class="pre-scrollable">
 var getAll = function (socket) {
     dynamodb.scan({
@@ -99,7 +102,9 @@ var getAll = function (socket) {
     });
 };
 </pre>
+
 <h3>Insert or update a user</h3>
+
 <pre class="pre-scrollable">
 var addUpdateUser = function (user, socket) {
     user.id = genIdFromEmail(user.email);
@@ -116,7 +121,9 @@ var addUpdateUser = function (user, socket) {
     });
 };
 </pre>
+
 <h3>Delete a user</h3>
+
 <pre class="pre-scrollable">
 var deleteUser = function (userId, socket) {
     var userObj = converter.ConvertFromJson({id: userId});
@@ -292,8 +299,9 @@ var s3 = new AWS.S3();
 </pre>
 
 <h3>Generate signed URL pair</h3>
-        Note: the GET URL is public, since that's how we want it. We could have easily
-        generated a signed GET URL, and kept the objects in the bucket private.
+
+The GET URL is public, since that's how we want it. We could have easily
+generated a signed GET URL, and kept the objects in the bucket private.
 
 <pre class="pre-scrollable">
 var generateUrlPair = function (socket) {
@@ -327,6 +335,38 @@ var deleteMedia = function(key, socket) {
     });
 }
 </pre>
+
+### Client-side send file
+
+    var sendFile = function(file, url, getUrl) {
+        var xhr = new XMLHttpRequest();
+        xhr.file = file; // not necessary if you create scopes like this
+        xhr.addEventListener('progress', function(e) {
+            var done = e.position || e.loaded, total = e.totalSize || e.total;
+            var prcnt = Math.floor(done/total*1000)/10;
+            if (prcnt % 5 === 0)
+                console.log('xhr progress: ' + (Math.floor(done/total*1000)/10) + '%');
+        }, false);
+        if ( xhr.upload ) {
+            xhr.upload.onprogress = function(e) {
+                var done = e.position || e.loaded, total = e.totalSize || e.total;
+                var prcnt = Math.floor(done/total*1000)/10;
+                if (prcnt % 5 === 0)
+                    console.log('xhr.upload progress: ' + done + ' / ' + total + ' = ' + (Math.floor(done/total*1000)/10) + '%');
+            };
+        }
+        xhr.onreadystatechange = function(e) {
+            if ( 4 == this.readyState ) {
+                console.log(['xhr upload complete', e]);
+                // emit the 'file uploaded' event
+                $rootScope.$broadcast(Constants.S3_FILE_DONE, getUrl);
+            }
+        };
+        xhr.open('PUT', url, true);
+        xhr.setRequestHeader("Content-Type","application/octet-stream");
+        xhr.send(file);
+    }
+
 
 <a name="ses">SES</a>
 ---------------------
